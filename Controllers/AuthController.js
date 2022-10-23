@@ -19,7 +19,26 @@ const register = async (req, res) => {
     
 };
 
+const login = async (req, res) => {
+    // check email exit
+    const user = userModel.findOne({email: req.body.email});
+    if(!user) {
+        return res.status(400).send('Invalid Email Or Password');
+    }
+
+    // check Password
+    const isPassvalid = bcrypt.compareSync(req.body.password, user.password);
+    if(!isPassvalid) {
+        return res.status(400).send('Invalid Email Or Password');
+    }
+
+    return res.status(200).send('login valid');
+
+
+}
+
 
 module.exports = {
     register: register,
+    login: login
 };
