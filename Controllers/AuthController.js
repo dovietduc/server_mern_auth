@@ -21,7 +21,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     // check email exit
-    const user = userModel.findOne({email: req.body.email});
+    const user = await userModel.findOne({email: req.body.email});
     if(!user) {
         return res.status(400).send('Invalid Email Or Password');
     }
@@ -34,9 +34,7 @@ const login = async (req, res) => {
 
     return res.status(200).send('login valid');
 
-
 }
-
 
 module.exports = {
     register: register,
