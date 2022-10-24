@@ -1,5 +1,6 @@
 const userModel = require('../Models/UserModel');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
     try {
@@ -32,7 +33,17 @@ const login = async (req, res) => {
         return res.status(400).send('Invalid Email Or Password');
     }
 
-    return res.status(200).send('login valid');
+    const jwtToken = jwt.sign({
+        _id: user.id,
+        username: user.username,
+        role: user.role
+    }, 'jwtSecret', {
+        expiresIn: 10
+    })
+
+    return res.status(200).send({
+        accessToken: jwtToken
+    });
 
 }
 
