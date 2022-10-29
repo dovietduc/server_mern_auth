@@ -38,7 +38,7 @@ const login = async (req, res) => {
         username: user.username,
         role: user.role
     }, process.env.SECRET_JWT, {
-        expiresIn: 10
+        expiresIn: 300
     })
 
     return res.status(200).send({
