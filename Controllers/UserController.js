@@ -14,7 +14,10 @@ const getListUser = async (req, res) => {
         }
     } catch (error) {
         // gui ma loi client de client biet refresh token
-        console.log(error);
+        if(error instanceof jwt.TokenExpiredError) {
+            return res.status(401).send('Token Expired');
+        }
+        // logs error
     }
     
 }
