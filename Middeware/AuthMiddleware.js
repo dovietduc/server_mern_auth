@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const userModel = require('../Models/UserModel');
+
 
 
 // check authentication
@@ -7,6 +9,8 @@ const isAuthentication = (req, res, next) => {
         const bearerHeader = req.headers['authorization'];
         const accessToken = bearerHeader.split(' ')[1];
         const decodeJwt = jwt.verify(accessToken, process.env.SECRET_JWT);
+        // set userId to req object
+        req.userId = decodeJwt._id;
         next();
     } catch (error) {
         if(error instanceof jwt.TokenExpiredError) {
@@ -18,8 +22,18 @@ const isAuthentication = (req, res, next) => {
 }
 
 // check role is admin
-const isAdmin = (req, res, next) => {
-   
+const isAdmin = async (req, res, next) => {
+    try {
+        const userId = req.userId;
+        const user = await userModel.findById(userId);
+        // role is admin
+        if(user.role === 'admin') {
+            next();
+        }
+    } catch (error) {
+        return res.status(401).send('Authentication not valid');
+    }
+    
 }
 
 

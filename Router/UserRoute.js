@@ -8,7 +8,11 @@ const authMiddleware = require('../Middeware/AuthMiddleware');
 router.get('/user', [
     authMiddleware.isAuthentication
 ], userController.getListUser);
-router.post('/user/create', userController.postUser);
+
+router.post('/user/create', [
+    authMiddleware.isAuthentication,
+    authMiddleware.isAdmin
+], userController.postUser);
 
 
 module.exports = router;
