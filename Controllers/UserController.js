@@ -28,7 +28,19 @@ const postUser = (req, res) => {
     
 }
 
+const deleteUser = async (req, res) => {
+    try {
+        // 4. delete user
+        const userId = req.params.userId;
+        await userModel.findByIdAndRemove(userId);
+        return res.status(200).send('delete user success');
+    } catch (error) {
+       // log errors
+    }
+}
+
 module.exports = {
     getListUser: getListUser,
-    postUser: postUser
+    postUser: postUser,
+    deleteUser: deleteUser
 }

@@ -14,5 +14,10 @@ router.post('/user/create', [
     authMiddleware.isAdmin
 ], userController.postUser);
 
+router.delete('/user/delete/:userId', [
+    authMiddleware.isAuthentication,
+    authMiddleware.isAdmin
+], userController.deleteUser);
+
 
 module.exports = router;
