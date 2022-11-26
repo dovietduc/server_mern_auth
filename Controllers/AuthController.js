@@ -47,7 +47,24 @@ const login = async (req, res) => {
 
 }
 
+const getUserLogin = async (req, res) => {
+   
+    try {
+        const userId = req.userId;
+        const user = await userModel.findById(userId);
+        res.json({
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            roe: user.role
+        })
+    } catch (error) {
+        
+    }
+}
+
 module.exports = {
     register: register,
-    login: login
+    login: login,
+    getUserLogin: getUserLogin
 };
